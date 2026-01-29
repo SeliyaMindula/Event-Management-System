@@ -240,10 +240,10 @@ function Register() {
           </div>
 
           {/* Alternative Sign Up */}
-          <button className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-gray-400 transition-all duration-200">
+          {/* <button className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-gray-400 transition-all duration-200">
             <User className="w-5 h-5" />
             <span>Sign up with other</span>
-          </button>
+          </button> */}
 
           {/* Login Link */}
           <div className="mt-6 text-center">
