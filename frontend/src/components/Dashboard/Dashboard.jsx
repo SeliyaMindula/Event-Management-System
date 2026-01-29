@@ -34,9 +34,9 @@ function Dashboard() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
           <p className="text-gray-600">Loading...</p>
         </div>
       </div>
@@ -85,24 +85,24 @@ function Dashboard() {
   const getRoleColor = (role) => {
     switch (role) {
       case 'SUPER_ADMIN':
-        return 'from-purple-500 to-purple-600';
+        return 'from-blue-700 to-blue-800';
       case 'ADMIN':
-        return 'from-blue-500 to-blue-600';
+        return 'from-blue-600 to-blue-700';
       case 'STUDENT':
-        return 'from-green-500 to-green-600';
+        return 'from-blue-500 to-blue-600';
       default:
-        return 'from-gray-500 to-gray-600';
+        return 'from-blue-500 to-blue-600';
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
                 <Calendar className="w-6 h-6 text-white" />
               </div>
               <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
@@ -110,7 +110,7 @@ function Dashboard() {
             
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-lg">
-                <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-purple-600 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center">
                   <User className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-right">
@@ -121,7 +121,7 @@ function Dashboard() {
               
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium text-sm"
               >
                 <LogOut className="w-4 h-4" />
                 <span>Logout</span>
@@ -151,9 +151,9 @@ function Dashboard() {
                 </div>
               </div>
               
-              <div className="mt-6 p-4 bg-gradient-to-r from-primary-50 to-purple-50 rounded-xl border border-primary-100">
+              <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                   <p className="text-gray-700">
                     {getRoleDescription(user.role)}
                   </p>
@@ -181,8 +181,8 @@ function Dashboard() {
           {/* Email Card */}
           <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow duration-200">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <Mail className="w-6 h-6 text-green-600" />
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <Mail className="w-6 h-6 text-blue-600" />
               </div>
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Email</h3>
@@ -208,29 +208,29 @@ function Dashboard() {
         {/* Quick Actions */}
         <div className="mt-8 bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
           <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-            <FileText className="w-6 h-6 text-primary-600" />
+            <FileText className="w-6 h-6 text-blue-600" />
             Quick Actions
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {user.role === 'SUPER_ADMIN' && (
               <>
-                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-primary-50 to-purple-50 hover:from-primary-100 hover:to-purple-100 rounded-lg border border-primary-200 transition-all duration-200 text-left">
-                  <Calendar className="w-5 h-5 text-primary-600" />
+                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-lg border border-blue-200 transition-all duration-200 text-left">
+                  <Calendar className="w-5 h-5 text-blue-600" />
                   <span className="font-medium text-gray-900">Create Event</span>
                 </button>
-                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-primary-50 to-purple-50 hover:from-primary-100 hover:to-purple-100 rounded-lg border border-primary-200 transition-all duration-200 text-left">
-                  <Settings className="w-5 h-5 text-primary-600" />
+                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-lg border border-blue-200 transition-all duration-200 text-left">
+                  <Settings className="w-5 h-5 text-blue-600" />
                   <span className="font-medium text-gray-900">Manage Events</span>
                 </button>
               </>
             )}
             {user.role === 'ADMIN' && (
               <>
-                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-blue-50 hover:from-blue-100 hover:to-blue-100 rounded-lg border border-blue-200 transition-all duration-200 text-left">
+                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-lg border border-blue-200 transition-all duration-200 text-left">
                   <Users className="w-5 h-5 text-blue-600" />
                   <span className="font-medium text-gray-900">Manage Invitations</span>
                 </button>
-                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-blue-50 hover:from-blue-100 hover:to-blue-100 rounded-lg border border-blue-200 transition-all duration-200 text-left">
+                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-lg border border-blue-200 transition-all duration-200 text-left">
                   <FileText className="w-5 h-5 text-blue-600" />
                   <span className="font-medium text-gray-900">View Reports</span>
                 </button>
@@ -238,12 +238,12 @@ function Dashboard() {
             )}
             {user.role === 'STUDENT' && (
               <>
-                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-green-50 to-green-50 hover:from-green-100 hover:to-green-100 rounded-lg border border-green-200 transition-all duration-200 text-left">
-                  <Calendar className="w-5 h-5 text-green-600" />
+                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-lg border border-blue-200 transition-all duration-200 text-left">
+                  <Calendar className="w-5 h-5 text-blue-600" />
                   <span className="font-medium text-gray-900">Browse Events</span>
                 </button>
-                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-green-50 to-green-50 hover:from-green-100 hover:to-green-100 rounded-lg border border-green-200 transition-all duration-200 text-left">
-                  <CheckCircle2 className="w-5 h-5 text-green-600" />
+                <button className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-lg border border-blue-200 transition-all duration-200 text-left">
+                  <CheckCircle2 className="w-5 h-5 text-blue-600" />
                   <span className="font-medium text-gray-900">Check In</span>
                 </button>
               </>
