@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, LogIn, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, AlertCircle, Loader2, UserPlus } from 'lucide-react';
 import authService from '../../services/authService';
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,40 +23,51 @@ function Login() {
     setError(''); // Clear error on input change
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    // Basic validation
-    if (!formData.email || !formData.password) {
+  const validateForm = () => {
+    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
       setError('Please fill in all fields');
-      setLoading(false);
-      return;
+      return false;
     }
 
     if (!formData.email.includes('@')) {
       setError('Please enter a valid email address');
-      setLoading(false);
+      return false;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return false;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!validateForm()) {
       return;
     }
 
-    const result = await authService.login(formData.email, formData.password);
+    setLoading(true);
+
+    const result = await authService.register(
+      formData.name,
+      formData.email,
+      formData.password
+    );
 
     if (result.success) {
-      // Redirect based on role
-      const role = result.user.role;
-      if (role === 'SUPER_ADMIN') {
-        navigate('/admin/dashboard');
-      } else if (role === 'ADMIN') {
-        navigate('/admin/dashboard');
-      } else if (role === 'STUDENT') {
-        navigate('/student/dashboard');
-      } else {
-        navigate('/dashboard');
-      }
+      // Redirect to student dashboard after successful registration
+      navigate('/student/dashboard');
     } else {
-      setError(result.error || 'Login failed. Please try again.');
+      setError(result.error || 'Registration failed. Please try again.');
       setLoading(false);
     }
   };
@@ -66,13 +79,13 @@ function Login() {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-500 to-purple-600 rounded-2xl mb-4 shadow-lg">
-              <LogIn className="w-8 h-8 text-white" />
+              <UserPlus className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Event Management
+              Student Registration
             </h1>
             <p className="text-gray-600 text-sm">
-              Sign in to your account to continue
+              Create your account to get started
             </p>
           </div>
           
@@ -86,6 +99,29 @@ function Login() {
           
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name Field */}
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                Full Name
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Enter your full name"
+                  required
+                  disabled={loading}
+                  className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed text-gray-900 placeholder-gray-400"
+                />
+              </div>
+            </div>
+
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -124,7 +160,30 @@ function Login() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Enter your password"
+                  placeholder="Enter your password (min. 6 characters)"
+                  required
+                  disabled={loading}
+                  className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed text-gray-900 placeholder-gray-400"
+                />
+              </div>
+            </div>
+
+            {/* Confirm Password Field */}
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                Confirm Password
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Confirm your password"
                   required
                   disabled={loading}
                   className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed text-gray-900 placeholder-gray-400"
@@ -141,26 +200,26 @@ function Login() {
               {loading ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Signing in...</span>
+                  <span>Creating account...</span>
                 </>
               ) : (
                 <>
-                  <LogIn className="w-5 h-5" />
-                  <span>Sign In</span>
+                  <UserPlus className="w-5 h-5" />
+                  <span>Create Account</span>
                 </>
               )}
             </button>
           </form>
 
-          {/* Register Link */}
+          {/* Login Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
+              Already have an account?{' '}
               <Link 
-                to="/register" 
+                to="/login" 
                 className="font-semibold text-primary-600 hover:text-primary-700 transition-colors"
               >
-                Sign up
+                Sign in
               </Link>
             </p>
           </div>
@@ -175,4 +234,5 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
+

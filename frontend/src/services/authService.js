@@ -20,6 +20,22 @@ export const authService = {
     }
   },
 
+  async register(name, email, password) {
+    try {
+      const response = await api.post('/auth/register', { name, email, password });
+      const { access_token, user } = response.data;
+      
+      // Store token and user info
+      localStorage.setItem(TOKEN_KEY, access_token);
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+      
+      return { success: true, user };
+    } catch (error) {
+      const message = error.response?.data?.message || 'Registration failed. Please try again.';
+      return { success: false, error: message };
+    }
+  },
+
   logout() {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
